@@ -108,7 +108,7 @@ export namespace TMO {
       }
 
       public valid(): boolean {
-        return Date.now() <= this.expires_in.getMilliseconds();
+        return Date.now() >= this.expires_in.getMilliseconds();
       }
     }
     export interface Response extends Omit<Session, "expires_in"> {

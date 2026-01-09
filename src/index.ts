@@ -49,7 +49,7 @@ export namespace TMO {
         public currentUnlockStatus: boolean,
         public startDate: string,
         public endDate: string,
-        public inEligiblityDetails: InEligibility.Details,
+        public ineligiblityDetails: InEligibility.Details,
         public uiCode: string,
         public uiMessage: string,
         public unlockEligible: boolean,

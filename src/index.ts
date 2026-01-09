@@ -6,9 +6,9 @@ import { randomBytes } from "crypto"
 export namespace TMO {
   /*** 
    * This namespace is used to define types for 
-   * Inelegibility responses
+   * InEligibility responses
   ***/
-  export namespace Inelegibility {
+  export namespace InEligibility {
     export class StatusItem {
       constructor(
         public statusCode: string,
@@ -31,12 +31,12 @@ export namespace TMO {
   }
   /*** 
      * This namespace is used to define types for 
-     * Elegibility responses
+     * Eligibility responses
     ***/
 
-  export namespace Elegibility {
+  export namespace Eligibility {
     export enum Type {
-      TEMPORAL = "1",
+      TEMPORARY = "1",
       PERMANENT = "2"
     };
 
@@ -49,7 +49,7 @@ export namespace TMO {
         public currentUnlockStatus: boolean,
         public startDate: string,
         public endDate: string,
-        public ineligiblityDetails: Inelegibility.Details,
+        public inEligiblityDetails: InEligibility.Details,
         public uiCode: string,
         public uiMessage: string,
         public unlockEligible: boolean,
@@ -200,15 +200,15 @@ export namespace TMO {
     }
 
     /***
-    * @description Retrives device Elegibility Capability
-    * @param {Elegibility.Type} type Type of unlock for check
+    * @description Retrives device Eligibility Capability
+    * @param {Eligibility.Type} type Type of unlock for check
     * @param {string} imei Imei to check
-    * @returns {Promise<Elegibility.Response>} This is a promise of results
+    * @returns {Promise<Eligibility.Response>} This is a promise of results
     * @example 
-    * await client.getElegibility("1234", TMO.Elegibility.Type.PERMANENT);
-    * // This will give an Elegibility.Response, save your transactionId
+    * await client.getEligibility("1234", TMO.Eligibility.Type.PERMANENT);
+    * // This will give an Eligibility.Response, save your transactionId
     ***/
-    public async getElegibility(imei: string, type: Elegibility.Type): Promise<Elegibility.Response> {
+    public async getEligibility(imei: string, type: Eligibility.Type): Promise<Eligibility.Response> {
       if (!this.session)
         throw new Errors.NotAuthorizationRequested();
       if (!this.session.valid())
@@ -230,20 +230,20 @@ export namespace TMO {
         body
       });
 
-      const response = await request.json() as Errors.RequestErrorResponse | Elegibility.Response;
+      const response = await request.json() as Errors.RequestErrorResponse | Eligibility.Response;
       if ((response as Errors.RequestErrorResponse).errors) throw new Errors.RequestError((response as Errors.RequestErrorResponse).errors[0]?.reasonCode || "-1")
-      return response as Elegibility.Response;
+      return response as Eligibility.Response;
     }
     /***
     * @description If your device is clean an elegible, you can use this method to unlock the device 
     * @param {string} imei The imei to unlock
-    * @param {Elegibility.Type} type The type of unlock, it requires to be **SAME** as used in previus method 
+    * @param {Eligibility.Type} type The type of unlock, it requires to be **SAME** as used in previus method 
     * @param {string} transactionId Previus method transactionId used
     * @returns {Promise<Unlock.Response>}
     * @example 
-    * await client.unlock("XAXAXA", Elegibility.Type.PERMANENT, elegible.transactionId);
+    * await client.unlock("XAXAXA", Eligibility.Type.PERMANENT, elegible.transactionId);
     ***/
-    public async unlock(imei: string, type: Elegibility.Type, transactionId: number): Promise<Unlock.Response> {
+    public async unlock(imei: string, type: Eligibility.Type, transactionId: number): Promise<Unlock.Response> {
       if (!this.session)
         throw new Errors.NotAuthorizationRequested();
       if (!this.session.valid())

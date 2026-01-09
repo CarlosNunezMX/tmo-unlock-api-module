@@ -9,6 +9,14 @@ export namespace TMO {
    * Inelegibility responses
   ***/
   export namespace Inelegibility {
+    export class StatusItem {
+      constructor(
+        public statusCode: string,
+        public statusDescription: string,
+        public explanation: string,
+        public referenceId: string
+      ) { }
+    }
     export class Reason {
       constructor(
         public code: string,
@@ -17,8 +25,8 @@ export namespace TMO {
       ) { }
     }
     export interface Details {
-      ineligiblityDetails: Reason[];
-      statusItems: unknown
+      ineligiblityDetails?: Reason[];
+      statusItems?: StatusItem[]
     }
   }
   /*** 

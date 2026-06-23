@@ -43,7 +43,7 @@ export namespace TMO {
 
     export class Response {
       constructor(
-        public transactionId: number,
+        public transactionId: string,
         public imei: string,
         public unlockType: Type,
         public currentUnlockStatus: boolean,
@@ -216,9 +216,10 @@ export namespace TMO {
 
       const url = this.apiEndpoint + "/getEligibility";
 
+      const transactionId = createTransactionID();
       const body = JSON.stringify({
         targetImei: imei,
-        transactionId: createTransactionID(),
+        transactionId,
         operationType: parseInt(type)
       });
 
@@ -232,7 +233,7 @@ export namespace TMO {
 
       const response = await request.json() as Errors.RequestErrorResponse | Eligibility.Response;
       if ((response as Errors.RequestErrorResponse).errors) throw new Errors.RequestError((response as Errors.RequestErrorResponse).errors[0]?.reasonCode || "-1")
-      return response as Eligibility.Response;
+      return { ...response, transactionId } as Eligibility.Response;
     }
     /***
     * @description If your device is clean an elegible, you can use this method to unlock the device 

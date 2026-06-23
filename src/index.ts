@@ -244,7 +244,7 @@ export namespace TMO {
     * @example 
     * await client.unlock("XAXAXA", Eligibility.Type.PERMANENT, elegible.transactionId);
     ***/
-    public async unlock(imei: string, type: Eligibility.Type, transactionId: number): Promise<Unlock.Response> {
+    public async unlock(imei: string, type: Eligibility.Type, transactionId: string): Promise<Unlock.Response> {
       if (!this.session)
         throw new Errors.NotAuthorizationRequested();
       if (!this.session.valid())
